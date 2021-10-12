@@ -28,7 +28,7 @@ func (x Timestamp) Value() (driver.Value, error) {
 
 //GormDataType gorm common data type
 func (x Timestamp) GormDataType() string {
-	return "date"
+	return "time"
 }
 
 //GobEncode encodes Tiemstamp to byte-slice (used by GORM)
