@@ -35,15 +35,24 @@ var (
 	regenerate   = flag.Bool("regenerate", false, "regenerate files")
 	buildRelease = flag.Bool("buildRelease", false, "build release binaries")
 
-	protobufVersion = "3.15.3"
+	protobufVersion = "21.5"
 	protobufSHA256  = "" // ignored if protobufVersion is a git hash
 
-	golangVersions = []string{"1.11.13", "1.12.17", "1.13.15", "1.14.15", "1.15.15", "1.16.15", "1.17.10", "1.18.1"}
-	golangLatest   = golangVersions[len(golangVersions)-1]
+	golangVersions = func() []string {
+		var vers []string
+		switch runtime.GOOS + "/" + runtime.GOARCH {
+		case "darwin/arm64":
+		default:
+			vers = []string{"1.11.13", "1.12.17", "1.13.15", "1.14.15", "1.15.15"}
+		}
+		return append(vers, "1.16.15", "1.17.12", "1.18.4")
+	}()
+	golangLatest = golangVersions[len(golangVersions)-1]
 
 	staticcheckVersion = "2022.1.2"
 	staticcheckSHA256s = map[string]string{
 		"darwin/amd64": "baa35f8fb967ee2aacad57f026e3724fbf8d9b7ad8f682f4d44b2084a96e103b",
+		"darwin/arm64": "9f01a581eeea088d0a6272538360f6d84996d66ae554bfada8026fe24991daa0",
 		"linux/386":    "4cf74373e5d668b265d7a241b59ba7d26064f2cd6af50b77e62c2b3e2f3afb43",
 		"linux/amd64":  "6dbb7187e43812fa23363cdaaa90ab13544dd36e24d02e2347014e4cf265f06d",
 	}
@@ -376,7 +385,7 @@ func mustHandleFlags(t *testing.T) {
 		t.Run("BuildRelease", func(t *testing.T) {
 			v := version.String()
 			for _, goos := range []string{"linux", "darwin", "windows"} {
-				for _, goarch := range []string{"386", "amd64"} {
+				for _, goarch := range []string{"386", "amd64", "arm64"} {
 					// Avoid Darwin since 10.15 dropped support for i386.
 					if goos == "darwin" && goarch == "386" {
 						continue
