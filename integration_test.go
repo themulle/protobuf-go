@@ -35,7 +35,7 @@ var (
 	regenerate   = flag.Bool("regenerate", false, "regenerate files")
 	buildRelease = flag.Bool("buildRelease", false, "build release binaries")
 
-	protobufVersion = "21.5"
+	protobufVersion = "344f6dee76ea858acfd4fd575ab386438256842b"
 	protobufSHA256  = "" // ignored if protobufVersion is a git hash
 
 	golangVersions = func() []string {
@@ -45,7 +45,7 @@ var (
 		default:
 			vers = []string{"1.13.15", "1.14.15", "1.15.15"}
 		}
-		return append(vers, "1.16.15", "1.17.12", "1.18.4")
+		return append(vers, "1.16.15", "1.17.13", "1.18.10", "1.19.6")
 	}()
 	golangLatest = golangVersions[len(golangVersions)-1]
 
@@ -146,7 +146,7 @@ func Test(t *testing.T) {
 		checks := []string{
 			"all",     // start with all checks enabled
 			"-SA1019", // disable deprecated usage check
-			"-S*",     // disable code simplication checks
+			"-S*",     // disable code simplification checks
 			"-ST*",    // disable coding style checks
 			"-U*",     // disable unused declaration checks
 		}
@@ -244,23 +244,28 @@ func mustInitDeps(t *testing.T) {
 	protobufPath = startWork("protobuf-" + protobufVersion)
 	if _, err := os.Stat(protobufPath); err != nil {
 		fmt.Printf("download %v\n", filepath.Base(protobufPath))
-		if isCommit := strings.Trim(protobufVersion, "0123456789abcdef") == ""; isCommit {
-			command{Dir: testDir}.mustRun(t, "git", "clone", "https://github.com/protocolbuffers/protobuf", "protobuf-"+protobufVersion)
-			command{Dir: protobufPath}.mustRun(t, "git", "checkout", protobufVersion)
-		} else {
-			url := fmt.Sprintf("https://github.com/google/protobuf/releases/download/v%v/protobuf-all-%v.tar.gz", protobufVersion, protobufVersion)
-			downloadArchive(check, protobufPath, url, "protobuf-"+protobufVersion, protobufSHA256)
+		checkoutVersion := protobufVersion
+		if isCommit := strings.Trim(protobufVersion, "0123456789abcdef") == ""; !isCommit {
+			// release tags have "v" prefix
+			checkoutVersion = "v" + protobufVersion
 		}
+		command{Dir: testDir}.mustRun(t, "git", "clone", "https://github.com/protocolbuffers/protobuf", "protobuf-"+protobufVersion)
+		command{Dir: protobufPath}.mustRun(t, "git", "checkout", checkoutVersion)
 
 		fmt.Printf("build %v\n", filepath.Base(protobufPath))
-		command{Dir: protobufPath}.mustRun(t, "./autogen.sh")
-		command{Dir: protobufPath}.mustRun(t, "./configure")
-		command{Dir: protobufPath}.mustRun(t, "make")
-		command{Dir: filepath.Join(protobufPath, "conformance")}.mustRun(t, "make")
+		env := os.Environ()
+		if runtime.GOOS == "darwin" {
+			// Adding this environment variable appears to be necessary for macOS builds.
+			env = append(env, "CC=clang")
+		}
+		command{
+			Dir: protobufPath,
+			Env: env,
+		}.mustRun(t, "bazel", "build", ":protoc", "//conformance:conformance_test_runner")
 	}
 	check(os.Setenv("PROTOBUF_ROOT", protobufPath)) // for generate-protos
-	registerBinary("conform-test-runner", filepath.Join(protobufPath, "conformance", "conformance-test-runner"))
-	registerBinary("protoc", filepath.Join(protobufPath, "src", "protoc"))
+	registerBinary("conform-test-runner", filepath.Join(protobufPath, "bazel-bin", "conformance", "conformance_test_runner"))
+	registerBinary("protoc", filepath.Join(protobufPath, "bazel-bin", "protoc"))
 	finishWork()
 
 	// Download each Go toolchain version.
