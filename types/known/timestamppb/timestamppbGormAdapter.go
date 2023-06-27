@@ -55,12 +55,24 @@ func (x *Timestamp) UnmarshalJSON(data []byte) error {
 	if err1 == nil {
 		x.Seconds = aux.Seconds
 		x.Nanos = aux.Nanos
-	} else {
+	} else if len(data) > 0 && data[0] == byte('"') {
 		var t time.Time
+		var err error
+		dataWithoutQuotes := string(data[1 : len(data)-1])
 		if err := json.Unmarshal(data, &t); err == nil {
+			err1 = nil
+		} else if t, err = time.Parse(time.RFC3339, dataWithoutQuotes); err == nil {
+			err1 = nil
+		} else if t, err = time.Parse(time.DateTime, dataWithoutQuotes); err == nil {
+			err1 = nil
+		} else if t, err = time.Parse(time.DateOnly, dataWithoutQuotes); err == nil {
+			err1 = nil
+		} else if t, err = time.Parse("2006-01-02T15:04:05", dataWithoutQuotes); err == nil {
+			err1 = nil
+		}
+		if err == nil {
 			x.Seconds = int64(t.Unix())
 			x.Nanos = int32(t.Nanosecond())
-			err1 = nil
 		}
 	}
 	return err1
