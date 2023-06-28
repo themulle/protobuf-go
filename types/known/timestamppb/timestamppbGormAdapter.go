@@ -23,17 +23,17 @@ func (x *Timestamp) Scan(value interface{}) (err error) {
 }
 
 // Value returns Timestamp as Time for "regular" processing (used by GORM)
-func (x *Timestamp) Value() (driver.Value, error) {
+func (x Timestamp) Value() (driver.Value, error) {
 	return x.AsTime(), nil
 }
 
 // GormDataType gorm common data type
-func (x *Timestamp) GormDataType() string {
+func (x Timestamp) GormDataType() string {
 	return "time"
 }
 
 // GobEncode encodes Tiemstamp to byte-slice (used by GORM)
-func (x *Timestamp) GobEncode() ([]byte, error) {
+func (x Timestamp) GobEncode() ([]byte, error) {
 	return x.AsTime().GobEncode()
 }
 
