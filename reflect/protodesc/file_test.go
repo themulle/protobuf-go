@@ -50,6 +50,49 @@ var (
 			]
 		}]
 	`)
+	protoEdition2023Message = mustParseFile(`
+		syntax:    "editions"
+		edition:   2023
+		name:      "proto_editions_2023_message.proto"
+		package:   "test.editions2023"
+		options: {
+			features: {
+				field_presence: IMPLICIT
+			}
+		}
+		message_type: [{
+			name:  "Message"
+			field: [
+				{name:"foo" number:1 type:TYPE_STRING},
+				{name:"bar" number:2 type:TYPE_STRING}
+			]
+		}]
+	`)
+	protoEdition2024Message = mustParseFile(`
+		syntax:    "editions"
+		edition:   2024
+		name:      "proto_editions_2024_message.proto"
+		package:   "test.editions2024"
+		message_type: [{
+			name:  "Message"
+			field: [
+				{
+					name:"foo" number:1
+					type:TYPE_STRING
+				},
+				{
+					name:"bar" number:2
+					type:TYPE_STRING
+					options: {
+						features: {
+							field_presence: IMPLICIT
+							utf8_validation: NONE
+						}
+					}
+				}
+			]
+		}]
+	`)
 	extendableMessage = mustParseFile(`
 		syntax:       "proto2"
 		name:         "extendable_message.proto"
@@ -785,6 +828,28 @@ func TestNewFile(t *testing.T) {
 				oneof_decl: [{name:"baz"}] # proto3 name conflict logic does not include oneof
 			}]}]
 		`),
+	}, {
+		label: "proto3 message field with defaults",
+		inDesc: mustParseFile(`
+			syntax:  "proto3"
+			name:    "test.proto"
+			message_type: [{name:"M" nested_type:[{
+				name:       "M"
+				field:      [{name:"a" number:1 type:TYPE_STRING default_value:"abc"}]
+			}]}]
+		`),
+		wantErr: `message field "M.M.a" has invalid default: cannot be specified with implicit field presence`,
+	}, {
+		label: "proto editions implicit presence field with defaults",
+		inDesc: mustParseFile(`
+			syntax:  "proto3"
+			name:    "test.proto"
+			message_type: [{name:"M" nested_type:[{
+				name:       "M"
+				field:      [{name:"a" number:1 type:TYPE_STRING default_value:"abc" options:{features:{field_presence:IMPLICIT}}}]
+			}]}]
+		`),
+		wantErr: `message field "M.M.a" has invalid default: cannot be specified with implicit field presence`,
 	}, {
 		label: "proto2 message fields with no conflict",
 		inDesc: mustParseFile(`

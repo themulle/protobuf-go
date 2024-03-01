@@ -84,6 +84,14 @@ func main() {
 	flag.BoolVar(&run, "execute", false, "Write generated files to destination.")
 	flag.StringVar(&protoRoot, "protoroot", os.Getenv("PROTOBUF_ROOT"), "The root of the protobuf source tree.")
 	flag.Parse()
+	protocPath, err := exec.LookPath("protoc")
+	if err != nil {
+		panic("protoc not found in $PATH.")
+
+	}
+	if !strings.Contains(protocPath, ".cache/bin") {
+		fmt.Fprintf(os.Stderr, "found protoc in $PATH but it is not in '.cache/bin`.\nRun ./test.bash and add '.cache/bin' to your $PATH to make sure you are using the same protoc as ./test.bash.\n")
+	}
 	if protoRoot == "" {
 		panic("protobuf source root is not set")
 	}
@@ -94,7 +102,7 @@ func main() {
 }
 
 func generateEditionsDefaults() {
-	dest := filepath.Join(repoRoot, "reflect", "protodesc", "editions_defaults.binpb")
+	dest := filepath.Join(repoRoot, "internal", "editiondefaults", "editions_defaults.binpb")
 	// The enum in Go string formats to "EDITION_${EDITION}" but protoc expects
 	// the flag in the form "${EDITION}". To work around this, we trim the
 	// "EDITION_" prefix.
@@ -126,12 +134,16 @@ func generateLocalProtos() {
 		annotate map[string]bool   // .proto files to annotate
 		exclude  map[string]bool   // .proto files to exclude from generation
 	}{{
-		path:     "cmd/protoc-gen-go/testdata",
-		pkgPaths: map[string]string{"cmd/protoc-gen-go/testdata/nopackage/nopackage.proto": "google.golang.org/protobuf/cmd/protoc-gen-go/testdata/nopackage"},
+		path: "cmd/protoc-gen-go/testdata",
+		pkgPaths: map[string]string{
+			"cmd/protoc-gen-go/testdata/nopackage/nopackage.proto": "google.golang.org/protobuf/cmd/protoc-gen-go/testdata/nopackage",
+		},
 		annotate: map[string]bool{"cmd/protoc-gen-go/testdata/annotations/annotations.proto": true},
 	}, {
 		path:    "internal/testprotos",
 		exclude: map[string]bool{"internal/testprotos/irregular/irregular.proto": true},
+	}, {
+		path: "reflect/protodesc/proto",
 	}}
 	excludeRx := regexp.MustCompile(`legacy/.*/`)
 	for _, d := range dirs {
@@ -216,6 +228,8 @@ func generateRemoteProtos() {
 		{"", "conformance/conformance.proto", "google.golang.org/protobuf/internal/testprotos/conformance;conformance"},
 		{"src", "google/protobuf/test_messages_proto2.proto", "google.golang.org/protobuf/internal/testprotos/conformance;conformance"},
 		{"src", "google/protobuf/test_messages_proto3.proto", "google.golang.org/protobuf/internal/testprotos/conformance;conformance"},
+		{"src", "google/protobuf/editions/golden/test_messages_proto2_editions.proto", "google.golang.org/protobuf/internal/testprotos/conformance/editions;editions"},
+		{"src", "google/protobuf/editions/golden/test_messages_proto3_editions.proto", "google.golang.org/protobuf/internal/testprotos/conformance/editions;editions"},
 
 		// Benchmark protos.
 		// TODO: The protobuf repo no longer includes benchmarks.
@@ -259,7 +273,11 @@ func generateRemoteProtos() {
 
 func protoc(args ...string) {
 	// TODO: Remove --experimental_allow_proto3_optional flag.
-	cmd := exec.Command("protoc", "--plugin=protoc-gen-go="+os.Args[0], "--experimental_allow_proto3_optional")
+	cmd := exec.Command(
+		"protoc",
+		"--plugin=protoc-gen-go="+os.Args[0],
+		"--experimental_allow_proto3_optional",
+		"--experimental_editions")
 	cmd.Args = append(cmd.Args, args...)
 	cmd.Env = append(os.Environ(), "RUN_AS_PROTOC_PLUGIN=1")
 	out, err := cmd.CombinedOutput()
@@ -297,6 +315,14 @@ func generateIdentifiers(gen *protogen.Plugin, file *protogen.File) {
 			g.P("const (")
 			g.P(enum.GoIdent.GoName, "_enum_fullname = ", strconv.Quote(string(enum.Desc.FullName())))
 			g.P(enum.GoIdent.GoName, "_enum_name = ", strconv.Quote(string(enum.Desc.Name())))
+			g.P(")")
+			g.P()
+
+			g.P("// Enum values for ", enum.Desc.FullName(), ".")
+			g.P("const (")
+			for _, v := range enum.Values {
+				g.P(v.GoIdent.GoName, "_enum_value = ", v.Desc.Number())
+			}
 			g.P(")")
 			g.P()
 		}
