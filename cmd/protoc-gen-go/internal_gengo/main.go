@@ -17,6 +17,7 @@ import (
 	"unicode/utf8"
 
 	"google.golang.org/protobuf/compiler/protogen"
+	"google.golang.org/protobuf/internal/editionssupport"
 	"google.golang.org/protobuf/internal/encoding/tag"
 	"google.golang.org/protobuf/internal/filedesc"
 	"google.golang.org/protobuf/internal/genid"
@@ -29,7 +30,10 @@ import (
 )
 
 // SupportedFeatures reports the set of supported protobuf language features.
-var SupportedFeatures = uint64(pluginpb.CodeGeneratorResponse_FEATURE_PROTO3_OPTIONAL)
+var SupportedFeatures = uint64(pluginpb.CodeGeneratorResponse_FEATURE_PROTO3_OPTIONAL | pluginpb.CodeGeneratorResponse_FEATURE_SUPPORTS_EDITIONS)
+
+var SupportedEditionsMinimum = editionssupport.Minimum
+var SupportedEditionsMaximum = editionssupport.Maximum
 
 // GenerateVersionMarkers specifies whether to generate version markers.
 var GenerateVersionMarkers = true
@@ -289,11 +293,11 @@ func genEnum(g *protogen.GeneratedFile, f *fileInfo, e *enumInfo) {
 	genEnumReflectMethods(g, f, e)
 
 	// UnmarshalJSON method.
-	needsUnmarshalJSONMethod := e.genJSONMethod && e.Desc.Syntax() == protoreflect.Proto2
-	if fde, ok := e.Desc.(*filedesc.Enum); ok && fde.L1.EditionFeatures.GenerateLegacyUnmarshalJSON {
-		needsUnmarshalJSONMethod = true
+	needsUnmarshalJSONMethod := false
+	if fde, ok := e.Desc.(*filedesc.Enum); ok {
+		needsUnmarshalJSONMethod = fde.L1.EditionFeatures.GenerateLegacyUnmarshalJSON
 	}
-	if needsUnmarshalJSONMethod {
+	if e.genJSONMethod && needsUnmarshalJSONMethod {
 		g.P("// Deprecated: Do not use.")
 		g.P("func (x *", e.GoIdent, ") UnmarshalJSON(b []byte) error {")
 		g.P("num, err := ", protoimplPackage.Ident("X"), ".UnmarshalJSONEnum(x.Descriptor(), b)")

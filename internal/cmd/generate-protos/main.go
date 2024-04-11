@@ -24,7 +24,7 @@ import (
 	gengo "google.golang.org/protobuf/cmd/protoc-gen-go/internal_gengo"
 	"google.golang.org/protobuf/compiler/protogen"
 	"google.golang.org/protobuf/internal/detrand"
-	"google.golang.org/protobuf/reflect/protodesc"
+	"google.golang.org/protobuf/internal/editionssupport"
 )
 
 func init() {
@@ -103,17 +103,20 @@ func main() {
 
 func generateEditionsDefaults() {
 	dest := filepath.Join(repoRoot, "internal", "editiondefaults", "editions_defaults.binpb")
+	srcDescriptorProto := filepath.Join(protoRoot, "src", "google", "protobuf", "descriptor.proto")
+	srcGoFeatures := filepath.Join(repoRoot, "types", "gofeaturespb", "go_features.proto")
 	// The enum in Go string formats to "EDITION_${EDITION}" but protoc expects
 	// the flag in the form "${EDITION}". To work around this, we trim the
 	// "EDITION_" prefix.
-	minEdition := strings.TrimPrefix(fmt.Sprint(protodesc.SupportedEditionsMinimum), "EDITION_")
-	maxEdition := strings.TrimPrefix(fmt.Sprint(protodesc.SupportedEditionsMaximum), "EDITION_")
+	minEdition := strings.TrimPrefix(fmt.Sprint(editionssupport.Minimum), "EDITION_")
+	maxEdition := strings.TrimPrefix(fmt.Sprint(editionssupport.Maximum), "EDITION_")
 	cmd := exec.Command(
 		"protoc",
 		"--experimental_edition_defaults_out", dest,
 		"--experimental_edition_defaults_minimum", minEdition,
 		"--experimental_edition_defaults_maximum", maxEdition,
-		"--proto_path", protoRoot, "src/google/protobuf/descriptor.proto",
+		"-I"+filepath.Join(protoRoot, "src"),
+		"--proto_path", repoRoot, srcDescriptorProto, srcGoFeatures,
 	)
 	out, err := cmd.CombinedOutput()
 	if err != nil {

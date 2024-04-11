@@ -52,7 +52,7 @@ var (
 	`)
 	protoEdition2023Message = mustParseFile(`
 		syntax:    "editions"
-		edition:   2023
+		edition:   EDITION_2023
 		name:      "proto_editions_2023_message.proto"
 		package:   "test.editions2023"
 		options: {
@@ -70,7 +70,7 @@ var (
 	`)
 	protoEdition2024Message = mustParseFile(`
 		syntax:    "editions"
-		edition:   2024
+		edition:   EDITION_2024
 		name:      "proto_editions_2024_message.proto"
 		package:   "test.editions2024"
 		message_type: [{
@@ -421,6 +421,20 @@ func TestNewFile(t *testing.T) {
 			}]
 		`),
 	}, {
+		label: "basic editions tests",
+		inDesc: mustParseFile(`
+			syntax: "editions"
+			edition: EDITION_2023
+			name: "test.proto"
+			package: "fizz"
+		`),
+		wantDesc: mustParseFile(`
+			syntax: "editions"
+			edition: EDITION_2023
+			name: "test.proto"
+			package: "fizz"
+		`),
+	}, {
 		label: "namespace conflict on enum value",
 		inDesc: mustParseFile(`
 			name:    "test.proto"
@@ -592,7 +606,7 @@ func TestNewFile(t *testing.T) {
 				value: [{name:"baz" number:500}]
 			}]}]
 		`),
-		wantErr: `enum "M.baz" using proto3 semantics must have zero number for the first value`,
+		wantErr: `enum "M.baz" using open semantics must have zero number for the first value`,
 	}, {
 		label: "valid proto3 enum",
 		inDesc: mustParseFile(`
@@ -613,7 +627,7 @@ func TestNewFile(t *testing.T) {
 				value: [{name:"e_Foo" number:0}, {name:"fOo" number:1}]
 			}]}]
 		`),
-		wantErr: `enum "M.E" using proto3 semantics has conflict: "fOo" with "e_Foo"`,
+		wantErr: `enum "M.E" using open semantics has conflict: "fOo" with "e_Foo"`,
 	}, {
 		label: "proto2 enum has name prefix check",
 		inDesc: mustParseFile(`
@@ -842,7 +856,8 @@ func TestNewFile(t *testing.T) {
 	}, {
 		label: "proto editions implicit presence field with defaults",
 		inDesc: mustParseFile(`
-			syntax:  "proto3"
+			syntax:    "editions"
+			edition:   EDITION_2023
 			name:    "test.proto"
 			message_type: [{name:"M" nested_type:[{
 				name:       "M"

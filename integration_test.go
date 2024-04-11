@@ -145,7 +145,8 @@ func TestIntegration(t *testing.T) {
 		runGo("PureGo", command{}, "go", "test", "-race", "-tags", "purego", "./...")
 		runGo("Reflect", command{}, "go", "test", "-race", "-tags", "protoreflect", "./...")
 		if goVersion == golangLatest {
-			runGo("ProtoLegacy", command{}, "go", "test", "-race", "-tags", "protolegacy", "./...")
+			runGo("ProtoLegacyRace", command{}, "go", "test", "-race", "-tags", "protolegacy", "./...")
+			runGo("ProtoLegacy", command{}, "go", "test", "-tags", "protolegacy", "./...")
 			runGo("ProtocGenGo", command{Dir: "cmd/protoc-gen-go/testdata"}, "go", "test")
 			runGo("Conformance", command{Dir: "internal/conformance"}, "go", "test", "-execute")
 
@@ -283,14 +284,24 @@ func mustInitDeps(t *testing.T) {
 			// the conformance test runner.
 			fmt.Printf("build %v\n", filepath.Base(protobufPath))
 			env := os.Environ()
+			args := []string{
+				"bazel", "build",
+				":protoc",
+				"//conformance:conformance_test_runner",
+			}
 			if runtime.GOOS == "darwin" {
 				// Adding this environment variable appears to be necessary for macOS builds.
 				env = append(env, "CC=clang")
+				// And this flag.
+				args = append(args,
+					"--macos_minimum_os=13.0",
+					"--host_macos_minimum_os=13.0",
+				)
 			}
 			command{
 				Dir: protobufPath,
 				Env: env,
-			}.mustRun(t, "bazel", "build", ":protoc", "//conformance:conformance_test_runner")
+			}.mustRun(t, args...)
 		}
 	}
 	check(os.Setenv("PROTOBUF_ROOT", protobufPath)) // for generate-protos
