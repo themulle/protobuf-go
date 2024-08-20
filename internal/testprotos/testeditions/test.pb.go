@@ -1853,7 +1853,7 @@ var file_internal_testprotos_testeditions_test_proto_extTypes = []protoimpl.Exte
 		ExtensionType: ([]int32)(nil),
 		Field:         90,
 		Name:          "goproto.proto.testeditions.packed_int32",
-		Tag:           "varint,90,rep,name=packed_int32",
+		Tag:           "varint,90,rep,packed,name=packed_int32",
 		Filename:      "internal/testprotos/testeditions/test.proto",
 	},
 	{
@@ -1861,7 +1861,7 @@ var file_internal_testprotos_testeditions_test_proto_extTypes = []protoimpl.Exte
 		ExtensionType: ([]int64)(nil),
 		Field:         91,
 		Name:          "goproto.proto.testeditions.packed_int64",
-		Tag:           "varint,91,rep,name=packed_int64",
+		Tag:           "varint,91,rep,packed,name=packed_int64",
 		Filename:      "internal/testprotos/testeditions/test.proto",
 	},
 	{
@@ -1869,7 +1869,7 @@ var file_internal_testprotos_testeditions_test_proto_extTypes = []protoimpl.Exte
 		ExtensionType: ([]uint32)(nil),
 		Field:         92,
 		Name:          "goproto.proto.testeditions.packed_uint32",
-		Tag:           "varint,92,rep,name=packed_uint32",
+		Tag:           "varint,92,rep,packed,name=packed_uint32",
 		Filename:      "internal/testprotos/testeditions/test.proto",
 	},
 	{
@@ -1877,7 +1877,7 @@ var file_internal_testprotos_testeditions_test_proto_extTypes = []protoimpl.Exte
 		ExtensionType: ([]uint64)(nil),
 		Field:         93,
 		Name:          "goproto.proto.testeditions.packed_uint64",
-		Tag:           "varint,93,rep,name=packed_uint64",
+		Tag:           "varint,93,rep,packed,name=packed_uint64",
 		Filename:      "internal/testprotos/testeditions/test.proto",
 	},
 	{
@@ -1885,7 +1885,7 @@ var file_internal_testprotos_testeditions_test_proto_extTypes = []protoimpl.Exte
 		ExtensionType: ([]int32)(nil),
 		Field:         94,
 		Name:          "goproto.proto.testeditions.packed_sint32",
-		Tag:           "zigzag32,94,rep,name=packed_sint32",
+		Tag:           "zigzag32,94,rep,packed,name=packed_sint32",
 		Filename:      "internal/testprotos/testeditions/test.proto",
 	},
 	{
@@ -1893,7 +1893,7 @@ var file_internal_testprotos_testeditions_test_proto_extTypes = []protoimpl.Exte
 		ExtensionType: ([]int64)(nil),
 		Field:         95,
 		Name:          "goproto.proto.testeditions.packed_sint64",
-		Tag:           "zigzag64,95,rep,name=packed_sint64",
+		Tag:           "zigzag64,95,rep,packed,name=packed_sint64",
 		Filename:      "internal/testprotos/testeditions/test.proto",
 	},
 	{
@@ -1901,7 +1901,7 @@ var file_internal_testprotos_testeditions_test_proto_extTypes = []protoimpl.Exte
 		ExtensionType: ([]uint32)(nil),
 		Field:         96,
 		Name:          "goproto.proto.testeditions.packed_fixed32",
-		Tag:           "fixed32,96,rep,name=packed_fixed32",
+		Tag:           "fixed32,96,rep,packed,name=packed_fixed32",
 		Filename:      "internal/testprotos/testeditions/test.proto",
 	},
 	{
@@ -1909,7 +1909,7 @@ var file_internal_testprotos_testeditions_test_proto_extTypes = []protoimpl.Exte
 		ExtensionType: ([]uint64)(nil),
 		Field:         97,
 		Name:          "goproto.proto.testeditions.packed_fixed64",
-		Tag:           "fixed64,97,rep,name=packed_fixed64",
+		Tag:           "fixed64,97,rep,packed,name=packed_fixed64",
 		Filename:      "internal/testprotos/testeditions/test.proto",
 	},
 	{
@@ -1917,7 +1917,7 @@ var file_internal_testprotos_testeditions_test_proto_extTypes = []protoimpl.Exte
 		ExtensionType: ([]int32)(nil),
 		Field:         98,
 		Name:          "goproto.proto.testeditions.packed_sfixed32",
-		Tag:           "fixed32,98,rep,name=packed_sfixed32",
+		Tag:           "fixed32,98,rep,packed,name=packed_sfixed32",
 		Filename:      "internal/testprotos/testeditions/test.proto",
 	},
 	{
@@ -1925,7 +1925,7 @@ var file_internal_testprotos_testeditions_test_proto_extTypes = []protoimpl.Exte
 		ExtensionType: ([]int64)(nil),
 		Field:         99,
 		Name:          "goproto.proto.testeditions.packed_sfixed64",
-		Tag:           "fixed64,99,rep,name=packed_sfixed64",
+		Tag:           "fixed64,99,rep,packed,name=packed_sfixed64",
 		Filename:      "internal/testprotos/testeditions/test.proto",
 	},
 	{
@@ -1933,7 +1933,7 @@ var file_internal_testprotos_testeditions_test_proto_extTypes = []protoimpl.Exte
 		ExtensionType: ([]float32)(nil),
 		Field:         100,
 		Name:          "goproto.proto.testeditions.packed_float",
-		Tag:           "fixed32,100,rep,name=packed_float",
+		Tag:           "fixed32,100,rep,packed,name=packed_float",
 		Filename:      "internal/testprotos/testeditions/test.proto",
 	},
 	{
@@ -1941,7 +1941,7 @@ var file_internal_testprotos_testeditions_test_proto_extTypes = []protoimpl.Exte
 		ExtensionType: ([]float64)(nil),
 		Field:         101,
 		Name:          "goproto.proto.testeditions.packed_double",
-		Tag:           "fixed64,101,rep,name=packed_double",
+		Tag:           "fixed64,101,rep,packed,name=packed_double",
 		Filename:      "internal/testprotos/testeditions/test.proto",
 	},
 	{
@@ -1949,7 +1949,7 @@ var file_internal_testprotos_testeditions_test_proto_extTypes = []protoimpl.Exte
 		ExtensionType: ([]bool)(nil),
 		Field:         102,
 		Name:          "goproto.proto.testeditions.packed_bool",
-		Tag:           "varint,102,rep,name=packed_bool",
+		Tag:           "varint,102,rep,packed,name=packed_bool",
 		Filename:      "internal/testprotos/testeditions/test.proto",
 	},
 	{
@@ -1957,7 +1957,7 @@ var file_internal_testprotos_testeditions_test_proto_extTypes = []protoimpl.Exte
 		ExtensionType: ([]ForeignEnum)(nil),
 		Field:         103,
 		Name:          "goproto.proto.testeditions.packed_enum",
-		Tag:           "varint,103,rep,name=packed_enum,enum=goproto.proto.testeditions.ForeignEnum",
+		Tag:           "varint,103,rep,packed,name=packed_enum,enum=goproto.proto.testeditions.ForeignEnum",
 		Filename:      "internal/testprotos/testeditions/test.proto",
 	},
 }
@@ -2733,7 +2733,7 @@ func file_internal_testprotos_testeditions_test_proto_rawDescGZIP() []byte {
 
 var file_internal_testprotos_testeditions_test_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
 var file_internal_testprotos_testeditions_test_proto_msgTypes = make([]protoimpl.MessageInfo, 31)
-var file_internal_testprotos_testeditions_test_proto_goTypes = []interface{}{
+var file_internal_testprotos_testeditions_test_proto_goTypes = []any{
 	(ForeignEnum)(0),                   // 0: goproto.proto.testeditions.ForeignEnum
 	(TestAllTypes_NestedEnum)(0),       // 1: goproto.proto.testeditions.TestAllTypes.NestedEnum
 	(*TestAllTypes)(nil),               // 2: goproto.proto.testeditions.TestAllTypes
@@ -2843,7 +2843,7 @@ func file_internal_testprotos_testeditions_test_proto_init() {
 		return
 	}
 	if !protoimpl.UnsafeEnabled {
-		file_internal_testprotos_testeditions_test_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
+		file_internal_testprotos_testeditions_test_proto_msgTypes[0].Exporter = func(v any, i int) any {
 			switch v := v.(*TestAllTypes); i {
 			case 0:
 				return &v.state
@@ -2855,7 +2855,7 @@ func file_internal_testprotos_testeditions_test_proto_init() {
 				return nil
 			}
 		}
-		file_internal_testprotos_testeditions_test_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
+		file_internal_testprotos_testeditions_test_proto_msgTypes[1].Exporter = func(v any, i int) any {
 			switch v := v.(*ForeignMessage); i {
 			case 0:
 				return &v.state
@@ -2867,7 +2867,7 @@ func file_internal_testprotos_testeditions_test_proto_init() {
 				return nil
 			}
 		}
-		file_internal_testprotos_testeditions_test_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
+		file_internal_testprotos_testeditions_test_proto_msgTypes[2].Exporter = func(v any, i int) any {
 			switch v := v.(*TestRequired); i {
 			case 0:
 				return &v.state
@@ -2879,7 +2879,7 @@ func file_internal_testprotos_testeditions_test_proto_init() {
 				return nil
 			}
 		}
-		file_internal_testprotos_testeditions_test_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
+		file_internal_testprotos_testeditions_test_proto_msgTypes[3].Exporter = func(v any, i int) any {
 			switch v := v.(*TestRequiredForeign); i {
 			case 0:
 				return &v.state
@@ -2891,7 +2891,7 @@ func file_internal_testprotos_testeditions_test_proto_init() {
 				return nil
 			}
 		}
-		file_internal_testprotos_testeditions_test_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
+		file_internal_testprotos_testeditions_test_proto_msgTypes[4].Exporter = func(v any, i int) any {
 			switch v := v.(*TestRequiredGroupFields); i {
 			case 0:
 				return &v.state
@@ -2903,7 +2903,7 @@ func file_internal_testprotos_testeditions_test_proto_init() {
 				return nil
 			}
 		}
-		file_internal_testprotos_testeditions_test_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
+		file_internal_testprotos_testeditions_test_proto_msgTypes[5].Exporter = func(v any, i int) any {
 			switch v := v.(*TestPackedTypes); i {
 			case 0:
 				return &v.state
@@ -2915,7 +2915,7 @@ func file_internal_testprotos_testeditions_test_proto_init() {
 				return nil
 			}
 		}
-		file_internal_testprotos_testeditions_test_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
+		file_internal_testprotos_testeditions_test_proto_msgTypes[6].Exporter = func(v any, i int) any {
 			switch v := v.(*TestPackedExtensions); i {
 			case 0:
 				return &v.state
@@ -2929,7 +2929,7 @@ func file_internal_testprotos_testeditions_test_proto_init() {
 				return nil
 			}
 		}
-		file_internal_testprotos_testeditions_test_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
+		file_internal_testprotos_testeditions_test_proto_msgTypes[7].Exporter = func(v any, i int) any {
 			switch v := v.(*TestAllTypes_NestedMessage); i {
 			case 0:
 				return &v.state
@@ -2941,7 +2941,7 @@ func file_internal_testprotos_testeditions_test_proto_init() {
 				return nil
 			}
 		}
-		file_internal_testprotos_testeditions_test_proto_msgTypes[8].Exporter = func(v interface{}, i int) interface{} {
+		file_internal_testprotos_testeditions_test_proto_msgTypes[8].Exporter = func(v any, i int) any {
 			switch v := v.(*TestAllTypes_OptionalGroup); i {
 			case 0:
 				return &v.state
@@ -2953,7 +2953,7 @@ func file_internal_testprotos_testeditions_test_proto_init() {
 				return nil
 			}
 		}
-		file_internal_testprotos_testeditions_test_proto_msgTypes[9].Exporter = func(v interface{}, i int) interface{} {
+		file_internal_testprotos_testeditions_test_proto_msgTypes[9].Exporter = func(v any, i int) any {
 			switch v := v.(*TestAllTypes_RepeatedGroup); i {
 			case 0:
 				return &v.state
@@ -2965,7 +2965,7 @@ func file_internal_testprotos_testeditions_test_proto_init() {
 				return nil
 			}
 		}
-		file_internal_testprotos_testeditions_test_proto_msgTypes[27].Exporter = func(v interface{}, i int) interface{} {
+		file_internal_testprotos_testeditions_test_proto_msgTypes[27].Exporter = func(v any, i int) any {
 			switch v := v.(*TestAllTypes_OneofGroup); i {
 			case 0:
 				return &v.state
@@ -2977,7 +2977,7 @@ func file_internal_testprotos_testeditions_test_proto_init() {
 				return nil
 			}
 		}
-		file_internal_testprotos_testeditions_test_proto_msgTypes[29].Exporter = func(v interface{}, i int) interface{} {
+		file_internal_testprotos_testeditions_test_proto_msgTypes[29].Exporter = func(v any, i int) any {
 			switch v := v.(*TestRequiredGroupFields_OptionalGroup); i {
 			case 0:
 				return &v.state
@@ -2989,7 +2989,7 @@ func file_internal_testprotos_testeditions_test_proto_init() {
 				return nil
 			}
 		}
-		file_internal_testprotos_testeditions_test_proto_msgTypes[30].Exporter = func(v interface{}, i int) interface{} {
+		file_internal_testprotos_testeditions_test_proto_msgTypes[30].Exporter = func(v any, i int) any {
 			switch v := v.(*TestRequiredGroupFields_RepeatedGroup); i {
 			case 0:
 				return &v.state
@@ -3002,7 +3002,7 @@ func file_internal_testprotos_testeditions_test_proto_init() {
 			}
 		}
 	}
-	file_internal_testprotos_testeditions_test_proto_msgTypes[0].OneofWrappers = []interface{}{
+	file_internal_testprotos_testeditions_test_proto_msgTypes[0].OneofWrappers = []any{
 		(*TestAllTypes_OneofUint32)(nil),
 		(*TestAllTypes_OneofNestedMessage)(nil),
 		(*TestAllTypes_OneofString)(nil),
@@ -3015,7 +3015,7 @@ func file_internal_testprotos_testeditions_test_proto_init() {
 		(*TestAllTypes_Oneofgroup)(nil),
 		(*TestAllTypes_OneofOptionalUint32)(nil),
 	}
-	file_internal_testprotos_testeditions_test_proto_msgTypes[3].OneofWrappers = []interface{}{
+	file_internal_testprotos_testeditions_test_proto_msgTypes[3].OneofWrappers = []any{
 		(*TestRequiredForeign_OneofMessage)(nil),
 	}
 	type x struct{}

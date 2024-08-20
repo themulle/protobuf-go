@@ -150,6 +150,7 @@ func (r descsByName) initFieldsFromDescriptorProto(fds []*descriptorpb.FieldDesc
 			opts = proto.Clone(opts).(*descriptorpb.FieldOptions)
 			f.L1.Options = func() protoreflect.ProtoMessage { return opts }
 			f.L1.IsWeak = opts.GetWeak()
+			f.L1.IsLazy = opts.GetLazy()
 			if opts.Packed != nil {
 				f.L1.EditionFeatures.IsPacked = opts.GetPacked()
 			}
@@ -198,6 +199,7 @@ func (r descsByName) initExtensionDeclarations(xds []*descriptorpb.FieldDescript
 		if x.L0, err = r.makeBase(x, parent, xd.GetName(), i, sb); err != nil {
 			return nil, err
 		}
+		x.L1.EditionFeatures = mergeEditionFeatures(parent, xd.GetOptions().GetFeatures())
 		if opts := xd.GetOptions(); opts != nil {
 			opts = proto.Clone(opts).(*descriptorpb.FieldOptions)
 			x.L2.Options = func() protoreflect.ProtoMessage { return opts }
@@ -212,6 +214,9 @@ func (r descsByName) initExtensionDeclarations(xds []*descriptorpb.FieldDescript
 		}
 		if xd.JsonName != nil {
 			x.L2.StringName.InitJSON(xd.GetJsonName())
+		}
+		if x.L1.Kind == protoreflect.MessageKind && x.L1.EditionFeatures.IsDelimitedEncoded {
+			x.L1.Kind = protoreflect.GroupKind
 		}
 	}
 	return xs, nil

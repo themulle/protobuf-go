@@ -14,12 +14,10 @@ import (
 	"fmt"
 	"io"
 	"io/fs"
-	"io/ioutil"
 	"net/http"
 	"os"
 	"os/exec"
 	"path/filepath"
-	"reflect"
 	"regexp"
 	"runtime"
 	"runtime/debug"
@@ -35,16 +33,16 @@ var (
 	regenerate   = flag.Bool("regenerate", false, "regenerate files")
 	buildRelease = flag.Bool("buildRelease", false, "build release binaries")
 
-	protobufVersion = "26.0-rc2"
+	protobufVersion = "27.0"
 
 	golangVersions = func() []string {
-		// Version policy: same version as is in the x/ repos' go.mod.
+		// Version policy: oldest supported version of Go, plus the version before that.
+		// This matches the version policy of the Google Cloud Client Libraries:
+		// https://cloud.google.com/go/getting-started/supported-go-versions
 		return []string{
-			"1.17.13",
-			"1.18.10",
-			"1.19.13",
-			"1.20.12",
-			"1.21.5",
+			"1.20.14",
+			"1.21.10",
+			"1.22.3",
 		}
 	}()
 	golangLatest = golangVersions[len(golangVersions)-1]
@@ -229,14 +227,16 @@ func mustInitDeps(t *testing.T) {
 	// Delete other sub-directories that are no longer relevant.
 	defer func() {
 		now := time.Now()
-		fis, _ := ioutil.ReadDir(testDir)
+		fis, _ := os.ReadDir(testDir)
 		for _, fi := range fis {
 			dir := filepath.Join(testDir, fi.Name())
 			if finishedDirs[dir] {
 				os.Chtimes(dir, now, now) // best-effort
 				continue
 			}
-			if now.Sub(fi.ModTime()) < purgeTimeout {
+			fii, err := fi.Info()
+			check(err)
+			if now.Sub(fii.ModTime()) < purgeTimeout {
 				continue
 			}
 			fmt.Printf("delete %v\n", fi.Name())
@@ -373,7 +373,7 @@ func downloadArchive(check func(error), dstPath, srcURL, skipPrefix, wantSHA256 
 
 	var r io.Reader = resp.Body
 	if wantSHA256 != "" {
-		b, err := ioutil.ReadAll(resp.Body)
+		b, err := io.ReadAll(resp.Body)
 		check(err)
 		r = bytes.NewReader(b)
 
@@ -408,9 +408,9 @@ func downloadArchive(check func(error), dstPath, srcURL, skipPrefix, wantSHA256 
 		mode := os.FileMode(h.Mode & 0777)
 		switch h.Typeflag {
 		case tar.TypeReg:
-			b, err := ioutil.ReadAll(tr)
+			b, err := io.ReadAll(tr)
 			check(err)
-			check(ioutil.WriteFile(path, b, mode))
+			check(os.WriteFile(path, b, mode))
 		case tar.TypeDir:
 			check(os.Mkdir(path, mode))
 		}
@@ -443,7 +443,7 @@ func mustHandleFlags(t *testing.T) {
 					cmd.mustRun(t, "go", "build", "-trimpath", "-ldflags", "-s -w -buildid=", "-o", binPath, "./cmd/protoc-gen-go")
 
 					// Archive and compress the binary.
-					in, err := ioutil.ReadFile(binPath)
+					in, err := os.ReadFile(binPath)
 					if err != nil {
 						t.Fatal(err)
 					}
@@ -472,7 +472,7 @@ func mustHandleFlags(t *testing.T) {
 						tw.Close()
 						gz.Close()
 					}
-					if err := ioutil.WriteFile(binPath+suffix, out.Bytes(), 0664); err != nil {
+					if err := os.WriteFile(binPath+suffix, out.Bytes(), 0664); err != nil {
 						t.Fatal(err)
 					}
 				}
@@ -499,7 +499,13 @@ func mustHaveCopyrightHeader(t *testing.T, files []string) {
 	var bad []string
 File:
 	for _, file := range files {
-		b, err := ioutil.ReadFile(file)
+		if strings.HasSuffix(file, "internal/testprotos/conformance/editions/test_messages_edition2023.pb.go") {
+			// TODO(lassefolger) the underlying proto file is checked into
+			// the protobuf repo without a copyright header. Fix is pending but
+			// might require a release.
+			continue
+		}
+		b, err := os.ReadFile(file)
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -556,15 +562,9 @@ func race() bool {
 	if !ok {
 		return false
 	}
-	// Use reflect because the debug.BuildInfo.Settings field
-	// isn't available in Go 1.17.
-	s := reflect.ValueOf(bi).Elem().FieldByName("Settings")
-	if !s.IsValid() {
-		return false
-	}
-	for i := 0; i < s.Len(); i++ {
-		if s.Index(i).FieldByName("Key").String() == "-race" {
-			return s.Index(i).FieldByName("Value").String() == "true"
+	for _, setting := range bi.Settings {
+		if setting.Key == "-race" {
+			return setting.Value == "true"
 		}
 	}
 	return false

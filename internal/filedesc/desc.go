@@ -258,6 +258,7 @@ type (
 		StringName       stringName
 		IsProto3Optional bool // promoted from google.protobuf.FieldDescriptorProto
 		IsWeak           bool // promoted from google.protobuf.FieldOptions
+		IsLazy           bool // promoted from google.protobuf.FieldOptions
 		Default          defaultValue
 		ContainingOneof  protoreflect.OneofDescriptor // must be consistent with Message.Oneofs.Fields
 		Enum             protoreflect.EnumDescriptor
@@ -351,6 +352,7 @@ func (fd *Field) IsPacked() bool {
 }
 func (fd *Field) IsExtension() bool { return false }
 func (fd *Field) IsWeak() bool      { return fd.L1.IsWeak }
+func (fd *Field) IsLazy() bool      { return fd.L1.IsLazy }
 func (fd *Field) IsList() bool      { return fd.Cardinality() == protoreflect.Repeated && !fd.IsMap() }
 func (fd *Field) IsMap() bool       { return fd.Message() != nil && fd.Message().IsMapEntry() }
 func (fd *Field) MapKey() protoreflect.FieldDescriptor {
@@ -382,6 +384,10 @@ func (fd *Field) Message() protoreflect.MessageDescriptor {
 		}
 	}
 	return fd.L1.Message
+}
+func (fd *Field) IsMapEntry() bool {
+	parent, ok := fd.L0.Parent.(protoreflect.MessageDescriptor)
+	return ok && parent.IsMapEntry()
 }
 func (fd *Field) Format(s fmt.State, r rune)             { descfmt.FormatDesc(s, r, fd) }
 func (fd *Field) ProtoType(protoreflect.FieldDescriptor) {}
@@ -421,15 +427,8 @@ type (
 		Extendee        protoreflect.MessageDescriptor
 		Cardinality     protoreflect.Cardinality
 		Kind            protoreflect.Kind
+		IsLazy          bool
 		EditionFeatures EditionFeatures
-		// To resolve the EditionFeatures we need to resolve the Extendee which
-		// happens at the end of the initialization of L1. Thus, we need to buffer
-		// the unresolved features (which are parsed when starting to initialize
-		// L1). We cannot move this to L2 because it is required to initialize
-		// Kind properly. Because some of the options (i.e. packed) affect the
-		// EditionFeatures we need to unmarshal the full options after resolving
-		// the Extendee.
-		rawOptions []byte
 	}
 	ExtensionL2 struct {
 		Options          func() protoreflect.ProtoMessage
@@ -457,9 +456,19 @@ func (xd *Extension) HasPresence() bool                     { return xd.L1.Cardi
 func (xd *Extension) HasOptionalKeyword() bool {
 	return (xd.L0.ParentFile.L1.Syntax == protoreflect.Proto2 && xd.L1.Cardinality == protoreflect.Optional) || xd.lazyInit().IsProto3Optional
 }
-func (xd *Extension) IsPacked() bool                         { return xd.L1.EditionFeatures.IsPacked }
+func (xd *Extension) IsPacked() bool {
+	if xd.L1.Cardinality != protoreflect.Repeated {
+		return false
+	}
+	switch xd.L1.Kind {
+	case protoreflect.StringKind, protoreflect.BytesKind, protoreflect.MessageKind, protoreflect.GroupKind:
+		return false
+	}
+	return xd.L1.EditionFeatures.IsPacked
+}
 func (xd *Extension) IsExtension() bool                      { return true }
 func (xd *Extension) IsWeak() bool                           { return false }
+func (xd *Extension) IsLazy() bool                           { return xd.L1.IsLazy }
 func (xd *Extension) IsList() bool                           { return xd.Cardinality() == protoreflect.Repeated }
 func (xd *Extension) IsMap() bool                            { return false }
 func (xd *Extension) MapKey() protoreflect.FieldDescriptor   { return nil }

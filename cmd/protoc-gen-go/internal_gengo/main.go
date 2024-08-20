@@ -41,6 +41,7 @@ var GenerateVersionMarkers = true
 // Standard library dependencies.
 const (
 	base64Package  = protogen.GoImportPath("encoding/base64")
+	jsonPackage    = protogen.GoImportPath("encoding/json")
 	mathPackage    = protogen.GoImportPath("math")
 	reflectPackage = protogen.GoImportPath("reflect")
 	sortPackage    = protogen.GoImportPath("sort")
@@ -231,7 +232,7 @@ func genImport(gen *protogen.Plugin, g *protogen.GeneratedFile, f *fileInfo, imp
 
 func genEnum(g *protogen.GeneratedFile, f *fileInfo, e *enumInfo) {
 	// Enum type declaration.
-	g.Annotate(e.GoIdent.GoName, e.Location)
+	g.AnnotateSymbol(e.GoIdent.GoName, protogen.Annotation{Location: e.Location})
 	leadingComments := appendDeprecationSuffix(e.Comments.Leading,
 		e.Desc.ParentFile(),
 		e.Desc.Options().(*descriptorpb.EnumOptions).GetDeprecated())
@@ -241,7 +242,7 @@ func genEnum(g *protogen.GeneratedFile, f *fileInfo, e *enumInfo) {
 	// Enum value constants.
 	g.P("const (")
 	for _, value := range e.Values {
-		g.Annotate(value.GoIdent.GoName, value.Location)
+		g.AnnotateSymbol(value.GoIdent.GoName, protogen.Annotation{Location: value.Location})
 		leadingComments := appendDeprecationSuffix(value.Comments.Leading,
 			value.Desc.ParentFile(),
 			value.Desc.Options().(*descriptorpb.EnumValueOptions).GetDeprecated())
@@ -331,7 +332,7 @@ func genMessage(g *protogen.GeneratedFile, f *fileInfo, m *messageInfo) {
 	}
 
 	// Message type declaration.
-	g.Annotate(m.GoIdent.GoName, m.Location)
+	g.AnnotateSymbol(m.GoIdent.GoName, protogen.Annotation{Location: m.Location})
 	leadingComments := appendDeprecationSuffix(m.Comments.Leading,
 		m.Desc.ParentFile(),
 		m.Desc.Options().(*descriptorpb.MessageOptions).GetDeprecated())
@@ -392,7 +393,7 @@ func genMessageField(g *protogen.GeneratedFile, f *fileInfo, m *messageInfo, fie
 			tags = append(tags, gotrackTags...)
 		}
 
-		g.Annotate(m.GoIdent.GoName+"."+oneof.GoName, oneof.Location)
+		g.AnnotateSymbol(m.GoIdent.GoName+"."+oneof.GoName, protogen.Annotation{Location: oneof.Location})
 		leadingComments := oneof.Comments.Leading
 		if leadingComments != "" {
 			leadingComments += "\n"
@@ -431,7 +432,7 @@ func genMessageField(g *protogen.GeneratedFile, f *fileInfo, m *messageInfo, fie
 	if field.Desc.IsWeak() {
 		name = genid.WeakFieldPrefix_goname + name
 	}
-	g.Annotate(m.GoIdent.GoName+"."+name, field.Location)
+	g.AnnotateSymbol(m.GoIdent.GoName+"."+name, protogen.Annotation{Location: field.Location})
 	leadingComments := appendDeprecationSuffix(field.Comments.Leading,
 		field.Desc.ParentFile(),
 		field.Desc.Options().(*descriptorpb.FieldOptions).GetDeprecated())
@@ -559,7 +560,7 @@ func genMessageGetterMethods(g *protogen.GeneratedFile, f *fileInfo, m *messageI
 
 		// Getter for parent oneof.
 		if oneof := field.Oneof; oneof != nil && oneof.Fields[0] == field && !oneof.Desc.IsSynthetic() {
-			g.Annotate(m.GoIdent.GoName+".Get"+oneof.GoName, oneof.Location)
+			g.AnnotateSymbol(m.GoIdent.GoName+".Get"+oneof.GoName, protogen.Annotation{Location: oneof.Location})
 			g.P("func (m *", m.GoIdent.GoName, ") Get", oneof.GoName, "() ", oneofInterfaceName(oneof), " {")
 			g.P("if m != nil {")
 			g.P("return m.", oneof.GoName)
@@ -572,7 +573,7 @@ func genMessageGetterMethods(g *protogen.GeneratedFile, f *fileInfo, m *messageI
 		// Getter for message field.
 		goType, pointer := fieldGoType(g, f, field)
 		defaultValue := fieldDefaultValue(g, f, m, field)
-		g.Annotate(m.GoIdent.GoName+".Get"+field.GoName, field.Location)
+		g.AnnotateSymbol(m.GoIdent.GoName+".Get"+field.GoName, protogen.Annotation{Location: field.Location})
 		leadingComments := appendDeprecationSuffix("",
 			field.Desc.ParentFile(),
 			field.Desc.Options().(*descriptorpb.FieldOptions).GetDeprecated())
@@ -815,8 +816,8 @@ func genMessageOneofWrapperTypes(g *protogen.GeneratedFile, f *fileInfo, m *mess
 		g.P("}")
 		g.P()
 		for _, field := range oneof.Fields {
-			g.Annotate(field.GoIdent.GoName, field.Location)
-			g.Annotate(field.GoIdent.GoName+"."+field.GoName, field.Location)
+			g.AnnotateSymbol(field.GoIdent.GoName, protogen.Annotation{Location: field.Location})
+			g.AnnotateSymbol(field.GoIdent.GoName+"."+field.GoName, protogen.Annotation{Location: field.Location})
 			g.P("type ", field.GoIdent, " struct {")
 			goType, _ := fieldGoType(g, f, field)
 			tags := structTags{
