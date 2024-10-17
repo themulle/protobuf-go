@@ -210,11 +210,9 @@ var (
 
 func (x *M) Reset() {
 	*x = M{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_cmd_protoc_gen_go_testdata_import_public_sub_a_proto_msgTypes[0]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
+	mi := &file_cmd_protoc_gen_go_testdata_import_public_sub_a_proto_msgTypes[0]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
 }
 
 func (x *M) String() string {
@@ -225,7 +223,7 @@ func (*M) ProtoMessage() {}
 
 func (x *M) ProtoReflect() protoreflect.Message {
 	mi := &file_cmd_protoc_gen_go_testdata_import_public_sub_a_proto_msgTypes[0]
-	if protoimpl.UnsafeEnabled && x != nil {
+	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -319,11 +317,9 @@ type M_Submessage struct {
 
 func (x *M_Submessage) Reset() {
 	*x = M_Submessage{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_cmd_protoc_gen_go_testdata_import_public_sub_a_proto_msgTypes[1]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
+	mi := &file_cmd_protoc_gen_go_testdata_import_public_sub_a_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
 }
 
 func (x *M_Submessage) String() string {
@@ -334,7 +330,7 @@ func (*M_Submessage) ProtoMessage() {}
 
 func (x *M_Submessage) ProtoReflect() protoreflect.Message {
 	mi := &file_cmd_protoc_gen_go_testdata_import_public_sub_a_proto_msgTypes[1]
-	if protoimpl.UnsafeEnabled && x != nil {
+	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -497,34 +493,6 @@ func file_cmd_protoc_gen_go_testdata_import_public_sub_a_proto_init() {
 		return
 	}
 	file_cmd_protoc_gen_go_testdata_import_public_sub_b_proto_init()
-	if !protoimpl.UnsafeEnabled {
-		file_cmd_protoc_gen_go_testdata_import_public_sub_a_proto_msgTypes[0].Exporter = func(v any, i int) any {
-			switch v := v.(*M); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			case 3:
-				return &v.extensionFields
-			default:
-				return nil
-			}
-		}
-		file_cmd_protoc_gen_go_testdata_import_public_sub_a_proto_msgTypes[1].Exporter = func(v any, i int) any {
-			switch v := v.(*M_Submessage); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-	}
 	file_cmd_protoc_gen_go_testdata_import_public_sub_a_proto_msgTypes[0].OneofWrappers = []any{
 		(*M_OneofInt32)(nil),
 		(*M_OneofInt64)(nil),

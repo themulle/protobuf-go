@@ -198,11 +198,9 @@ var (
 
 func (x *TestAllTypesProto2) Reset() {
 	*x = TestAllTypesProto2{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_internal_testprotos_editionsfuzztest_test2_proto_msgTypes[0]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
+	mi := &file_internal_testprotos_editionsfuzztest_test2_proto_msgTypes[0]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
 }
 
 func (x *TestAllTypesProto2) String() string {
@@ -213,7 +211,7 @@ func (*TestAllTypesProto2) ProtoMessage() {}
 
 func (x *TestAllTypesProto2) ProtoReflect() protoreflect.Message {
 	mi := &file_internal_testprotos_editionsfuzztest_test2_proto_msgTypes[0]
-	if protoimpl.UnsafeEnabled && x != nil {
+	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -887,11 +885,9 @@ type TestAllTypesProto2_NestedMessage struct {
 
 func (x *TestAllTypesProto2_NestedMessage) Reset() {
 	*x = TestAllTypesProto2_NestedMessage{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_internal_testprotos_editionsfuzztest_test2_proto_msgTypes[1]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
+	mi := &file_internal_testprotos_editionsfuzztest_test2_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
 }
 
 func (x *TestAllTypesProto2_NestedMessage) String() string {
@@ -902,7 +898,7 @@ func (*TestAllTypesProto2_NestedMessage) ProtoMessage() {}
 
 func (x *TestAllTypesProto2_NestedMessage) ProtoReflect() protoreflect.Message {
 	mi := &file_internal_testprotos_editionsfuzztest_test2_proto_msgTypes[1]
-	if protoimpl.UnsafeEnabled && x != nil {
+	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -943,11 +939,9 @@ type TestAllTypesProto2_OptionalGroup struct {
 
 func (x *TestAllTypesProto2_OptionalGroup) Reset() {
 	*x = TestAllTypesProto2_OptionalGroup{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_internal_testprotos_editionsfuzztest_test2_proto_msgTypes[2]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
+	mi := &file_internal_testprotos_editionsfuzztest_test2_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
 }
 
 func (x *TestAllTypesProto2_OptionalGroup) String() string {
@@ -958,7 +952,7 @@ func (*TestAllTypesProto2_OptionalGroup) ProtoMessage() {}
 
 func (x *TestAllTypesProto2_OptionalGroup) ProtoReflect() protoreflect.Message {
 	mi := &file_internal_testprotos_editionsfuzztest_test2_proto_msgTypes[2]
-	if protoimpl.UnsafeEnabled && x != nil {
+	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -1005,11 +999,9 @@ type TestAllTypesProto2_RepeatedGroup struct {
 
 func (x *TestAllTypesProto2_RepeatedGroup) Reset() {
 	*x = TestAllTypesProto2_RepeatedGroup{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_internal_testprotos_editionsfuzztest_test2_proto_msgTypes[3]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
+	mi := &file_internal_testprotos_editionsfuzztest_test2_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
 }
 
 func (x *TestAllTypesProto2_RepeatedGroup) String() string {
@@ -1020,7 +1012,7 @@ func (*TestAllTypesProto2_RepeatedGroup) ProtoMessage() {}
 
 func (x *TestAllTypesProto2_RepeatedGroup) ProtoReflect() protoreflect.Message {
 	mi := &file_internal_testprotos_editionsfuzztest_test2_proto_msgTypes[3]
-	if protoimpl.UnsafeEnabled && x != nil {
+	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -1060,11 +1052,9 @@ type TestAllTypesProto2_OneofGroup struct {
 
 func (x *TestAllTypesProto2_OneofGroup) Reset() {
 	*x = TestAllTypesProto2_OneofGroup{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_internal_testprotos_editionsfuzztest_test2_proto_msgTypes[21]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
+	mi := &file_internal_testprotos_editionsfuzztest_test2_proto_msgTypes[21]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
 }
 
 func (x *TestAllTypesProto2_OneofGroup) String() string {
@@ -1075,7 +1065,7 @@ func (*TestAllTypesProto2_OneofGroup) ProtoMessage() {}
 
 func (x *TestAllTypesProto2_OneofGroup) ProtoReflect() protoreflect.Message {
 	mi := &file_internal_testprotos_editionsfuzztest_test2_proto_msgTypes[21]
-	if protoimpl.UnsafeEnabled && x != nil {
+	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -1630,68 +1620,6 @@ func init() { file_internal_testprotos_editionsfuzztest_test2_proto_init() }
 func file_internal_testprotos_editionsfuzztest_test2_proto_init() {
 	if File_internal_testprotos_editionsfuzztest_test2_proto != nil {
 		return
-	}
-	if !protoimpl.UnsafeEnabled {
-		file_internal_testprotos_editionsfuzztest_test2_proto_msgTypes[0].Exporter = func(v any, i int) any {
-			switch v := v.(*TestAllTypesProto2); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_internal_testprotos_editionsfuzztest_test2_proto_msgTypes[1].Exporter = func(v any, i int) any {
-			switch v := v.(*TestAllTypesProto2_NestedMessage); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_internal_testprotos_editionsfuzztest_test2_proto_msgTypes[2].Exporter = func(v any, i int) any {
-			switch v := v.(*TestAllTypesProto2_OptionalGroup); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_internal_testprotos_editionsfuzztest_test2_proto_msgTypes[3].Exporter = func(v any, i int) any {
-			switch v := v.(*TestAllTypesProto2_RepeatedGroup); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_internal_testprotos_editionsfuzztest_test2_proto_msgTypes[21].Exporter = func(v any, i int) any {
-			switch v := v.(*TestAllTypesProto2_OneofGroup); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
 	}
 	file_internal_testprotos_editionsfuzztest_test2_proto_msgTypes[0].OneofWrappers = []any{
 		(*TestAllTypesProto2_OneofUint32)(nil),

@@ -80,11 +80,9 @@ type TestFieldTrack struct {
 
 func (x *TestFieldTrack) Reset() {
 	*x = TestFieldTrack{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_internal_testprotos_fieldtrack_fieldtrack_proto_msgTypes[0]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
+	mi := &file_internal_testprotos_fieldtrack_fieldtrack_proto_msgTypes[0]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
 }
 
 func (x *TestFieldTrack) String() string {
@@ -95,7 +93,7 @@ func (*TestFieldTrack) ProtoMessage() {}
 
 func (x *TestFieldTrack) ProtoReflect() protoreflect.Message {
 	mi := &file_internal_testprotos_fieldtrack_fieldtrack_proto_msgTypes[0]
-	if protoimpl.UnsafeEnabled && x != nil {
+	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -1004,22 +1002,6 @@ func init() { file_internal_testprotos_fieldtrack_fieldtrack_proto_init() }
 func file_internal_testprotos_fieldtrack_fieldtrack_proto_init() {
 	if File_internal_testprotos_fieldtrack_fieldtrack_proto != nil {
 		return
-	}
-	if !protoimpl.UnsafeEnabled {
-		file_internal_testprotos_fieldtrack_fieldtrack_proto_msgTypes[0].Exporter = func(v any, i int) any {
-			switch v := v.(*TestFieldTrack); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.weakFields
-			case 3:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{

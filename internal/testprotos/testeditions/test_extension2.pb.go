@@ -22,11 +22,9 @@ type OtherRepeatedFieldEncoding struct {
 
 func (x *OtherRepeatedFieldEncoding) Reset() {
 	*x = OtherRepeatedFieldEncoding{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_internal_testprotos_testeditions_test_extension2_proto_msgTypes[0]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
+	mi := &file_internal_testprotos_testeditions_test_extension2_proto_msgTypes[0]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
 }
 
 func (x *OtherRepeatedFieldEncoding) String() string {
@@ -37,7 +35,7 @@ func (*OtherRepeatedFieldEncoding) ProtoMessage() {}
 
 func (x *OtherRepeatedFieldEncoding) ProtoReflect() protoreflect.Message {
 	mi := &file_internal_testprotos_testeditions_test_extension2_proto_msgTypes[0]
-	if protoimpl.UnsafeEnabled && x != nil {
+	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -191,20 +189,6 @@ func file_internal_testprotos_testeditions_test_extension2_proto_init() {
 		return
 	}
 	file_internal_testprotos_testeditions_test_extension_proto_init()
-	if !protoimpl.UnsafeEnabled {
-		file_internal_testprotos_testeditions_test_extension2_proto_msgTypes[0].Exporter = func(v any, i int) any {
-			switch v := v.(*OtherRepeatedFieldEncoding); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{

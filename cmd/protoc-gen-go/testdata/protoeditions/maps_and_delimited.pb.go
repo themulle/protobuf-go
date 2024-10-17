@@ -28,11 +28,9 @@ type MessageWithMaps struct {
 
 func (x *MessageWithMaps) Reset() {
 	*x = MessageWithMaps{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_cmd_protoc_gen_go_testdata_protoeditions_maps_and_delimited_proto_msgTypes[0]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
+	mi := &file_cmd_protoc_gen_go_testdata_protoeditions_maps_and_delimited_proto_msgTypes[0]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
 }
 
 func (x *MessageWithMaps) String() string {
@@ -43,7 +41,7 @@ func (*MessageWithMaps) ProtoMessage() {}
 
 func (x *MessageWithMaps) ProtoReflect() protoreflect.Message {
 	mi := &file_cmd_protoc_gen_go_testdata_protoeditions_maps_and_delimited_proto_msgTypes[0]
-	if protoimpl.UnsafeEnabled && x != nil {
+	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -104,11 +102,9 @@ type MessageWithMaps_NestedMessage struct {
 
 func (x *MessageWithMaps_NestedMessage) Reset() {
 	*x = MessageWithMaps_NestedMessage{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_cmd_protoc_gen_go_testdata_protoeditions_maps_and_delimited_proto_msgTypes[4]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
+	mi := &file_cmd_protoc_gen_go_testdata_protoeditions_maps_and_delimited_proto_msgTypes[4]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
 }
 
 func (x *MessageWithMaps_NestedMessage) String() string {
@@ -119,7 +115,7 @@ func (*MessageWithMaps_NestedMessage) ProtoMessage() {}
 
 func (x *MessageWithMaps_NestedMessage) ProtoReflect() protoreflect.Message {
 	mi := &file_cmd_protoc_gen_go_testdata_protoeditions_maps_and_delimited_proto_msgTypes[4]
-	if protoimpl.UnsafeEnabled && x != nil {
+	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -259,32 +255,6 @@ func init() { file_cmd_protoc_gen_go_testdata_protoeditions_maps_and_delimited_p
 func file_cmd_protoc_gen_go_testdata_protoeditions_maps_and_delimited_proto_init() {
 	if File_cmd_protoc_gen_go_testdata_protoeditions_maps_and_delimited_proto != nil {
 		return
-	}
-	if !protoimpl.UnsafeEnabled {
-		file_cmd_protoc_gen_go_testdata_protoeditions_maps_and_delimited_proto_msgTypes[0].Exporter = func(v any, i int) any {
-			switch v := v.(*MessageWithMaps); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_cmd_protoc_gen_go_testdata_protoeditions_maps_and_delimited_proto_msgTypes[4].Exporter = func(v any, i int) any {
-			switch v := v.(*MessageWithMaps_NestedMessage); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
